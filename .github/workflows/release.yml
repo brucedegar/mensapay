@@ -1,7 +1,6 @@
 name: Build Oxygen
 on:
-  release:
-    types: [ created ]
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
