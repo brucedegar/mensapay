@@ -1,17 +1,17 @@
 import "./login-page.scss";
 
 import * as React from "react";
-import {AxiosError} from "axios";
-import {useNavigate, useLocation} from "react-router-dom";
-import {Modal, Button, Typography, Form, Input, notification} from "antd";
-import {GoogleOutlined, CheckOutlined} from "@ant-design/icons";
+import { AxiosError } from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Modal, Button, Typography, Form, Input, notification } from "antd";
+import { GoogleOutlined, CheckOutlined } from "@ant-design/icons";
 import logoImg from "/fav/android-chrome-192x192.png";
 import bevis from "src/utils/bevis";
-import {useMount} from "react-use";
+import { useMount } from "react-use";
 import localStorage from "src/utils/local-storage";
-import {AuthProvider, UserCreateForm} from "src/types";
+import { AuthProvider, UserCreateForm } from "src/types";
 import authProvider from "src/providers/auth-provider";
-import {sleep} from "src/utils";
+import { sleep } from "src/utils";
 import SpinWithMask from "src/components/spin-with-mask/spin-with-mask";
 
 const b = bevis("login-page");
@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
             message: title,
             description,
             placement: "bottomRight",
-            icon: <CheckOutlined style={{color: "#49D1AC"}} />
+            icon: <CheckOutlined style={{ color: "#49D1AC" }} />
         });
     };
 
@@ -42,7 +42,7 @@ const LoginPage: React.FC = () => {
             setIsFormSubmitting(true);
             await authProvider.createUser(values);
             navigate("/", {
-                state: {realoadUserInfo: true}
+                state: { realoadUserInfo: true }
             });
             openNotification("Welcome to the our community", "");
 
@@ -65,7 +65,7 @@ const LoginPage: React.FC = () => {
     };
 
     useMount(async () => {
-        window.addEventListener("popstate", () => navigate("/login", {replace: true}));
+        window.addEventListener("popstate", () => navigate("/login", { replace: true }));
 
         if (state?.isNeedLogout) {
             localStorage.remove("merchantId");
@@ -95,7 +95,7 @@ const LoginPage: React.FC = () => {
                     <>
                         <div className={b("logo")}>
                             <img src={logoImg} alt="logo" className={b("logo-img")} />
-                            <Typography.Title className={b("logo-text")}>OxygenPay</Typography.Title>
+                            <Typography.Title className={b("logo-text")}>Mensa Pay</Typography.Title>
                         </div>
                         <Typography.Title level={2}>Sign In 🔐</Typography.Title>
                         <SpinWithMask isLoading={isLoading} />

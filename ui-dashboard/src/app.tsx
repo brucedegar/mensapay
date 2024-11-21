@@ -1,17 +1,17 @@
 import "./app.scss";
 
 import * as React from "react";
-import {AxiosError} from "axios";
-import {Routes, Route, useLocation, useNavigate} from "react-router-dom";
-import {useMount} from "react-use";
-import {ProLayout, RouteContext, RouteContextType} from "@ant-design/pro-components";
-import {EditOutlined, LogoutOutlined, LinkOutlined, CheckOutlined} from "@ant-design/icons";
-import {Select, Divider, Button, Avatar, Space, Dropdown, MenuProps, notification, FormInstance} from "antd";
-import {usePostHog} from "posthog-js/react";
+import { AxiosError } from "axios";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { useMount } from "react-use";
+import { ProLayout, RouteContext, RouteContextType } from "@ant-design/pro-components";
+import { EditOutlined, LogoutOutlined, LinkOutlined, CheckOutlined } from "@ant-design/icons";
+import { Select, Divider, Button, Avatar, Space, Dropdown, MenuProps, notification, FormInstance } from "antd";
+import { usePostHog } from "posthog-js/react";
 import bevis from "src/utils/bevis";
 import logoImg from "/fav/android-chrome-192x192.png";
 import SettingsPage from "src/pages/settings-page/settings-page";
-import {SupportMessage, User} from "src/types";
+import { SupportMessage, User } from "src/types";
 import authProvider from "src/providers/auth-provider";
 import useSharedMerchantId from "src/hooks/use-merchant-id";
 import useSharedMerchants from "src/hooks/use-merchants";
@@ -24,10 +24,10 @@ import DrawerForm from "src/components/drawer-form/drawer-form";
 import SupportForm from "src/components/support-form/support-form";
 import merchantProvider from "src/providers/merchant-provider";
 import CustomersPage from "src/pages/customers-page/customers-page";
-import {sleep} from "src/utils";
+import { sleep } from "src/utils";
 import PaymentLinksPage from "src/pages/payment-links-page/payments-links-page";
 import useSharedPosthogStatus from "src/hooks/use-posthog-status";
-import {toggled} from "./providers/toggles";
+import { toggled } from "./providers/toggles";
 
 interface MenuItem {
     path: string;
@@ -91,10 +91,10 @@ const App: React.FC = () => {
     const navigate = useNavigate();
     const [notificationApi, notificationElement] = notification.useNotification();
 
-    const {merchants, getMerchants} = useSharedMerchants();
-    const {getMerchant} = useSharedMerchant();
-    const {merchantId, setMerchantId} = useSharedMerchantId();
-    const {isPosthogActive} = useSharedPosthogStatus();
+    const { merchants, getMerchants } = useSharedMerchants();
+    const { getMerchant } = useSharedMerchant();
+    const { merchantId, setMerchantId } = useSharedMerchantId();
+    const { isPosthogActive } = useSharedPosthogStatus();
     const [user, setUser] = React.useState<User>();
     const [isSupportFormOpen, setIsSupportFormOpen] = React.useState<boolean>(false);
     const [isFormSubmitting, setIsFormSubmitting] = React.useState<boolean>(false);
@@ -235,7 +235,7 @@ const App: React.FC = () => {
                 message: "You have submitted a form",
                 description: `Thank you for your ${value.topic.toLowerCase()}`,
                 placement: "bottomRight",
-                icon: <CheckOutlined style={{color: "#49D1AC"}} />
+                icon: <CheckOutlined style={{ color: "#49D1AC" }} />
             });
 
             await sleep(1000);
@@ -247,7 +247,7 @@ const App: React.FC = () => {
         }
     };
 
-    const loadingMerchantSwitcherMenu = [{label: "Loading...", value: "loading..."}];
+    const loadingMerchantSwitcherMenu = [{ label: "Loading...", value: "loading..." }];
 
     return (
         <Routes>
@@ -272,7 +272,7 @@ const App: React.FC = () => {
                                         <div className={b("logo")}>
                                             <img src={logoImg} alt="logo" className={b("logo-img")} />
                                             {routeCtx.isMobile ? null : (
-                                                <span className={b("logo-text")}>OxygenPay</span>
+                                                <span className={b("logo-text")}>Mensa Pay</span>
                                             )}
                                         </div>
                                     )}
@@ -304,9 +304,9 @@ const App: React.FC = () => {
                                             options={
                                                 merchants
                                                     ? merchants.map((merchant) => ({
-                                                          label: merchant.name,
-                                                          value: merchant.id
-                                                      }))
+                                                        label: merchant.name,
+                                                        value: merchant.id
+                                                    }))
                                                     : loadingMerchantSwitcherMenu
                                             }
                                             onChange={async (value) => {
@@ -319,7 +319,7 @@ const App: React.FC = () => {
                                             }}
                                         />
                                     ) : null,
-                                    <Dropdown menu={{items: userMenu}} trigger={["click"]} className={b("user-wrap")}>
+                                    <Dropdown menu={{ items: userMenu }} trigger={["click"]} className={b("user-wrap")}>
                                         <Space
                                             className={b("user-container", {
                                                 "user-container_selected": true
