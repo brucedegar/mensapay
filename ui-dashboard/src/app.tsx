@@ -55,10 +55,6 @@ const defaultMenus: MenuItem[] = [
     {
         path: "/settings",
         name: "Settings"
-    },
-    {
-        path: "https://docs.o2pay.co/",
-        name: "Documentation"
     }
 ];
 

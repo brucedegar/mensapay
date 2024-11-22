@@ -56,7 +56,7 @@ definitions:
       successAction:
         type: string
         description: |
-          Action type after OxygenPay receives incoming payment from a customer.
+          Action type after MensaPay receives incoming payment from a customer.
           - `redirectUrl` displays "Back to site" button with provided .redirectUrl.
           - `showMessage` displays "Show message" with content provided in .successMessage.
         enum: [ redirect, showMessage ]
@@ -120,7 +120,7 @@ definitions:
       successAction:
         type: string
         description: |
-          Action type after OxygenPay receives incoming payment from a customer.
+          Action type after MensaPay receives incoming payment from a customer.
           - `redirectUrl` displays "Back to site" button with provided .redirectUrl.
           - `showMessage` displays "Show message" with content provided in .successMessage.
         enum: [ redirect, showMessage ]

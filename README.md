@@ -14,7 +14,7 @@ Thank y'all for your support and understanding.
   </a>
 </p>
 
-**OxygenPay** is a cloud or self-hosted crypto payment gateway.
+**MensaPay** is a cloud or self-hosted crypto payment gateway.
 Receive crypto including stablecoins with ease. Open new opportunities for your product by accepting cryptocurrency.
 
 <img src="./.github/static/demo.jpg" alt="demo">
