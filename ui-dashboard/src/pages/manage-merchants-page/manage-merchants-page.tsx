@@ -1,16 +1,16 @@
 import * as React from "react";
-import {useAsyncFn} from "react-use";
-import {PageContainer} from "@ant-design/pro-components";
-import {useNavigate} from "react-router-dom";
-import {Button, Space, notification, Typography, FormInstance} from "antd";
-import {DeleteOutlined, EditOutlined, CheckOutlined} from "@ant-design/icons";
+import { useAsyncFn } from "react-use";
+import { PageContainer } from "@ant-design/pro-components";
+import { useNavigate } from "react-router-dom";
+import { Button, Space, notification, Typography, FormInstance } from "antd";
+import { DeleteOutlined, EditOutlined, CheckOutlined } from "@ant-design/icons";
 import CustomCard from "src/components/custom-card/custom-card";
 import useSharedMerchants from "src/hooks/use-merchants";
 import merchantProvider from "src/providers/merchant-provider";
-import {MerchantBase, Merchant} from "src/types";
+import { MerchantBase, Merchant } from "src/types";
 import MerchantForm from "src/components/merchant-form/merchant-form";
 import SpinWithMask from "src/components/spin-with-mask/spin-with-mask";
-import {sleep} from "src/utils";
+import { sleep } from "src/utils";
 import useSharedMerchantId from "src/hooks/use-merchant-id";
 import DrawerForm from "src/components/drawer-form/drawer-form";
 import createConfirmPopup from "src/utils/create-confirm-popup";
@@ -18,8 +18,8 @@ import createConfirmPopup from "src/utils/create-confirm-popup";
 const ManageMerchantsPage: React.FC = () => {
     const navigate = useNavigate();
     const [notificationApi, contextHolder] = notification.useNotification();
-    const {merchants, getMerchants} = useSharedMerchants();
-    const {merchantId, setMerchantId} = useSharedMerchantId();
+    const { merchants, getMerchants } = useSharedMerchants();
+    const { merchantId, setMerchantId } = useSharedMerchantId();
     const [activeMerchant, setActiveMerchant] = React.useState<Merchant | undefined>();
     const [isAddMerchantFormOpened, setIsAddMerchantFormOpened] = React.useState<boolean>(false);
     const [isEditAddMerchantFormOpened, setIsEditAddMerchantFormOpened] = React.useState<boolean>(false);
@@ -41,7 +41,7 @@ const ManageMerchantsPage: React.FC = () => {
             message: title,
             description,
             placement: "bottomRight",
-            icon: <CheckOutlined style={{color: "#49D1AC"}} />
+            icon: <CheckOutlined style={{ color: "#49D1AC" }} />
         });
     };
 
@@ -51,7 +51,7 @@ const ManageMerchantsPage: React.FC = () => {
             const merchant = await createMerchantReq(value);
             resetValuesFn();
             setMerchantId(merchant.id);
-            openNotification("Welcome to the O2Pay", `Hello, ${value.name}!`);
+            openNotification("Welcome to the Mensa Pay", `Hello, ${value.name}!`);
 
             await sleep(1000);
             form.resetFields();
@@ -122,7 +122,7 @@ const ManageMerchantsPage: React.FC = () => {
         >
             {contextHolder}
 
-            <div style={{position: "relative"}}>
+            <div style={{ position: "relative" }}>
                 <Typography.Paragraph>
                     Each merchant represents a seperate workspace with its own payments and settings.
                     <br /> You can create as many merchants as you want. <br />
@@ -166,7 +166,7 @@ const ManageMerchantsPage: React.FC = () => {
                         <Button
                             disabled={isEditAddMerchantFormOpened}
                             onClick={() => setIsAddMerchantFormOpened(true)}
-                            style={{marginTop: "20px", marginRight: "20px"}}
+                            style={{ marginTop: "20px", marginRight: "20px" }}
                         >
                             Create merchant
                         </Button>

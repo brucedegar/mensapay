@@ -189,12 +189,12 @@ const App: React.FC = () => {
         }
 
         if (location.pathname === "/login") {
-            document.title = "Login | Dashboard | OxygenPay";
+            document.title = "Login | Dashboard | MensaPay";
             return;
         }
 
         const pageName = menus.find((item) => item.path === location.pathname)?.name;
-        document.title = `${pageName} | Dashboard | OxygenPay`;
+        document.title = `${pageName} | Dashboard | MensaPay`;
     }, [location, merchants]);
 
     const logout = async () => {
