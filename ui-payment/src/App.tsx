@@ -2,8 +2,8 @@ import "./App.css";
 
 import "tw-elements";
 import React from "react";
-import {useMount} from "react-use";
-import {Routes, Route, useNavigate, useLocation} from "react-router-dom";
+import { useMount } from "react-use";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import SuccessPage from "src/pages/SuccessPage";
 import PaymentPage from "src/pages/PaymentPage";
 import NotFoundPage from "src/pages/NotFoundPage";
@@ -11,10 +11,10 @@ import ErrorPage from "src/pages/ErrorPage";
 import PaymentContext from "src/hooks/paymentContext";
 import PaymentLinkContext from "src/hooks/linkContext";
 import paymentProvider from "src/providers/paymentProvider";
-import {Payment, PaymentLink} from "src/types";
+import { Payment, PaymentLink } from "src/types";
 import Icon from "src/components/Icon";
 import LinkPage from "src/pages/LinkPage";
-import {toggled} from "./providers/toggles";
+import { toggled } from "./providers/toggles";
 
 const App: React.FC = () => {
     const navigate = useNavigate();
@@ -68,19 +68,19 @@ const App: React.FC = () => {
 
     React.useEffect(() => {
         if (payment) {
-            document.title = `O2Pay Payment: ${payment.merchantName}`;
+            document.title = `MensaPay Payment: ${payment.merchantName}`;
         }
     }, [payment]);
 
     React.useEffect(() => {
         if (paymentLink) {
-            document.title = `O2Pay Payment Link: ${paymentLink.merchantName}`;
+            document.title = `MensaPay Payment Link: ${paymentLink.merchantName}`;
         }
     }, [paymentLink]);
 
     return (
-        <PaymentContext.Provider value={{payment, setPayment}}>
-            <PaymentLinkContext.Provider value={{paymentLink, setPaymentLink}}>
+        <PaymentContext.Provider value={{ payment, setPayment }}>
+            <PaymentLinkContext.Provider value={{ paymentLink, setPaymentLink }}>
                 <main className="min-h-screen bg-main-green-3">
                     <div className="wrapper container mx-auto py-8 sm:pt-8 pb-0 relative">
                         <Icon
@@ -104,7 +104,7 @@ const App: React.FC = () => {
                                 <p className="text-center text-gray-500">
                                     Powered by self-hosted{" "}
                                     <a className="color-oxygen" target="_blank" href="https://o2pay.co">
-                                        OxygenPay
+                                        MensaPay
                                     </a>
                                 </p>
                             </div>
