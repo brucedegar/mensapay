@@ -84,10 +84,9 @@ const App: React.FC = () => {
                 <main className="min-h-screen bg-main-green-3">
                     <div className="wrapper container mx-auto py-8 sm:pt-8 pb-0 relative">
                         <Icon
-                            name="logo"
+                            name="store"
                             className="absolute m-auto left-0 right-0 top-[59px] sm:top-3.5 w-32 h-6 sm:w-44 sm:h-8"
                         />
-                        <Icon name="store" className="h-16 w-16" />
                         <div className="sm:h-mobile-card-height sm:min-h-mobile-card flex flex-row justify-center mt-[4.4rem] sm:mt-7">
                             <div className="bg-white lg:w-[370px] xs:w-full md:w-[390px] max-w-md lg:rounded-[30px] sm:rounded-t-[30px] shadow-md p-[34px] xs:pt-4">
                                 <Routes>
