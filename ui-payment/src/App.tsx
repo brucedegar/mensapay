@@ -15,6 +15,7 @@ import { Payment, PaymentLink } from "src/types";
 import Icon from "src/components/Icon";
 import LinkPage from "src/pages/LinkPage";
 import { toggled } from "./providers/toggles";
+import logoImg from "/fav/android-chrome-192x192.png";
 
 const App: React.FC = () => {
     const navigate = useNavigate();
@@ -82,12 +83,12 @@ const App: React.FC = () => {
         <PaymentContext.Provider value={{ payment, setPayment }}>
             <PaymentLinkContext.Provider value={{ paymentLink, setPaymentLink }}>
                 <main className="min-h-screen bg-main-green-3">
-                    <div className="wrapper container mx-auto py-8 sm:pt-8 pb-0 relative">
-                        <Icon
-                            name="store"
-                            className="absolute m-auto left-0 right-0 top-[59px] sm:top-3.5 w-32 h-6 sm:w-44 sm:h-8"
-                        />
-                        <div className="sm:h-mobile-card-height sm:min-h-mobile-card flex flex-row justify-center mt-[4.4rem] sm:mt-7">
+                    <div className="wrapper container mx-auto py-8 sm:pt-8 pb-0 relative flex flex-col items-center">
+                        <div className="sm:mb-20">
+                            <img src={logoImg} alt="logo" className="w-32 h-32 sm:w-44 sm:h-44 object-contain" />
+                        </div>
+
+                        <div className="sm:h-mobile-card-height sm:min-h-mobile-card flex flex-row justify-center sm:mt-7">
                             <div className="bg-white lg:w-[370px] xs:w-full md:w-[390px] max-w-md lg:rounded-[30px] sm:rounded-t-[30px] shadow-md p-[34px] xs:pt-4">
                                 <Routes>
                                     <Route path="not-found/:id" element={<NotFoundPage />} />
