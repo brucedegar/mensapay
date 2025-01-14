@@ -49,7 +49,7 @@ const CopyButton: React.FC<Props> = ({textToCopy, displayText}) => {
     const strippedAddress = stripAddress();
 
     return (
-        <div className="relative w-full mb-6">
+        <div className="relative w-full mb-6"> 
             <button
                 onClick={copyToClipboard}
                 className={
