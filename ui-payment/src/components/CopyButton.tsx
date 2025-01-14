@@ -7,25 +7,45 @@ interface Props {
     displayText: string;
 }
 
-const CopyButton: React.FC<Props> = ({textToCopy, displayText}) => {
+const CopyButton: React.FC<Props> = ({ textToCopy, displayText }) => {
     const windowSize = useWindowSize();
     const [copied, setCopied] = React.useState<boolean>(false);
 
     const copyToClipboard = () => {
-        navigator.clipboard.writeText(textToCopy).then(
-            () => {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(textToCopy).then(
+                () => {
+                    setCopied(true);
+
+                    setTimeout(() => {
+                        setCopied(false);
+                    }, 1000);
+                },
+                (err) => {
+                    console.error("Failed to copy text:", err.message);
+                }
+            );
+        } else {
+            // Fallback for unsupported browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand("copy");
                 setCopied(true);
 
                 setTimeout(() => {
                     setCopied(false);
                 }, 1000);
-            },
-
-            (err) => {
-                console.log("failed to copy text", err.message);
+            } catch (err) {
+                console.error("Fallback: Failed to copy text");
+            } finally {
+                document.body.removeChild(textArea);
             }
-        );
+        }
     };
+
 
     const stripAddress = () => {
         if (!windowSize?.width) {
@@ -49,7 +69,7 @@ const CopyButton: React.FC<Props> = ({textToCopy, displayText}) => {
     const strippedAddress = stripAddress();
 
     return (
-        <div className="relative w-full mb-6"> 
+        <div className="relative w-full mb-6">
             <button
                 onClick={copyToClipboard}
                 className={
