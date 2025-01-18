@@ -40,7 +40,7 @@ type Provider struct {
 
 const (
 	TokenHeader = "x-api-key"
-	EthTestnet  = "ethereum-goerli"
+	EthTestnet  = "ethereum-sepolia" 
 
 	userAgent = "Go-http/1.1"
 

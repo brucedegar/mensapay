@@ -121,9 +121,11 @@ func parseWithdrawalRequest(req model.CreateWithdrawalRequest) (payment.CreateWi
 
 func withdrawalFeeToResponse(fee *payment.WithdrawalFee) *model.WithdrawalFee {
 	usdFee := "0"
+	usdFee = fee.USDFee.String()
+	/*
 	if !fee.IsTest {
 		usdFee = fee.USDFee.String()
-	}
+	}*/
 
 	return &model.WithdrawalFee{
 		Blockchain:   fee.Blockchain.String(),

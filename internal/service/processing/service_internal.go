@@ -542,17 +542,24 @@ func (s *Service) getOutboundWalletsWithBalancesAsMap(ctx context.Context) (
 
 	for i := range wallets {
 		w := wallets[i]
+		fmt.Printf("DEBUG: checking wallet ID %d\n", w.ID)
 		group.Go(func() error {
 			balances, err := s.wallets.ListBalances(ctx, wallet.EntityTypeWallet, w.ID, false)
 			if err != nil {
+				fmt.Printf("ERROR: Unable to fetch balances for wallet ID %d: %v\n", w.ID, err)
+
 				return err
 			}
+
+			fmt.Printf("DEBUG: Unable to fetch balances for wallet ID %d: %d : %v\n", w.ID, len(balances), wallet.EntityTypeWallet)
 
 			mu.Lock()
 			defer mu.Unlock()
 
 			for _, b := range balances {
-				results[balanceKey(b)] = b
+				key := balanceKey(b)
+				fmt.Printf("DEBUG: Adding Balance Key=%s, Balance=%+v\n", key, b)
+				results[key] = b
 			}
 
 			return nil

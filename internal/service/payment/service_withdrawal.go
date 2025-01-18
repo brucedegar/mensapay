@@ -68,6 +68,17 @@ func (s *Service) CreateWithdrawal(ctx context.Context, merchantID int64, props 
 
 	ticker := balance.Amount.Ticker()
 
+	fmt.Printf("ticker: %s, AmountRaw: %s, Decimals: %d\n", ticker, props.AmountRaw, balance.Amount.Decimals())
+
+	if ticker == "" || props.AmountRaw == "" {
+		fmt.Printf("ticker OR props.AmountRaw is empty")
+	}
+
+	decimals := balance.Amount.Decimals()
+	if decimals < 0 {
+		fmt.Printf("invalid decimals for balance")
+	}
+	
 	amount, err := money.CryptoFromStringFloat(ticker, props.AmountRaw, balance.Amount.Decimals())
 	if err != nil {
 		return nil, err

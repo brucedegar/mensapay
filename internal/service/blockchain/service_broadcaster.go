@@ -14,7 +14,6 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	kms "github.com/oxygenpay/oxygen/internal/kms/wallet"
 	"github.com/oxygenpay/oxygen/internal/money"
-	"github.com/oxygenpay/oxygen/internal/provider/tatum"
 	client "github.com/oxygenpay/tatum-sdk/tatum"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
@@ -40,7 +39,7 @@ func (s *Service) BroadcastTransaction(ctx context.Context, blockchain money.Blo
 	case kms.ETH:
 		opts := &client.EthereumApiEthBroadcastOpts{}
 		if isTest {
-			opts.XTestnetType = optional.NewString(tatum.EthTestnet)
+			opts.XTestnetType = optional.NewString("ethereum-sepolia")
 		}
 
 		txHash, _, err = api.EthereumApi.EthBroadcast(ctx, client.BroadcastKms{TxData: rawTX}, opts)

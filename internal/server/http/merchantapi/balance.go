@@ -2,7 +2,7 @@ package merchantapi
 
 import (
 	"net/http"
-
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/oxygenpay/oxygen/internal/server/http/middleware"
 	"github.com/oxygenpay/oxygen/internal/service/wallet"
@@ -31,9 +31,12 @@ func (h *Handler) balanceToResponse(b *wallet.Balance) *model.MerchantBalance {
 	isTest := b.NetworkID != currency.NetworkID
 
 	usdAmount := "0"
-	if !isTest && b.UsdAmount != nil {
+	if b.UsdAmount != nil {
 		usdAmount = b.UsdAmount.String()
 	}
+
+	fmt.Printf("usdAmount: %s\n", usdAmount)
+	fmt.Printf("b.UsdAmount: %s\n", b.UsdAmount.String())
 
 	return &model.MerchantBalance{
 		ID:                         b.UUID.String(),

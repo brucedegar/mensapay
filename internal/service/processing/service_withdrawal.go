@@ -3,6 +3,7 @@ package processing
 import (
 	"context"
 	"fmt"
+	"log"
 	"sync"
 	"sync/atomic"
 
@@ -42,6 +43,7 @@ func (s *Service) BatchCreateWithdrawals(ctx context.Context, withdrawalIDs []in
 	group.SetLimit(8)
 	for i := range withdrawals {
 		withdrawal := withdrawals[i]
+		
 		group.Go(func() error {
 			// Let's validate each withdrawal individually.
 			// By doing so, we can reject it without blocking other withdrawals.
@@ -67,15 +69,20 @@ func (s *Service) BatchCreateWithdrawals(ctx context.Context, withdrawalIDs []in
 				Currency:   currency.Ticker,
 			})
 
+			fmt.Printf("DEBUG: withdrawal.Price.Ticker=%s\n", withdrawal.Price.Ticker())
+			fmt.Printf("DEBUG: systemBalanceKey=%v, outboundBalances=%v\n", systemBalanceKey, outboundBalances)
+
 			systemBalance, ok := outboundBalances[systemBalanceKey]
 			if !ok {
 				result.registerErr(errors.New("unable to get withdrawal wallet balance"))
+				fmt.Println("GOOO : unable to get withdrawal wallet balance")
 				return nil
 			}
 
 			withdrawalWallet, ok := outboundWallets[systemBalance.EntityID]
 			if !ok {
 				result.registerErr(errors.New("unable to get withdrawal wallet"))
+				fmt.Println("GOOO : unable to get withdrawal wallet")
 				return nil
 			}
 
@@ -87,6 +94,7 @@ func (s *Service) BatchCreateWithdrawals(ctx context.Context, withdrawalIDs []in
 			)
 			if err != nil {
 				result.registerErr(errors.Wrap(err, "unable to get merchant balance"))
+				fmt.Println("GOOO : unable to get merchant balance")
 				return nil
 			}
 
@@ -97,6 +105,7 @@ func (s *Service) BatchCreateWithdrawals(ctx context.Context, withdrawalIDs []in
 			)
 			if err != nil {
 				result.registerErr(errors.Wrap(err, "unable to get merchant address"))
+				fmt.Println("GOOO : unable to get merchant address")
 				return nil
 			}
 
@@ -108,6 +117,18 @@ func (s *Service) BatchCreateWithdrawals(ctx context.Context, withdrawalIDs []in
 				MerchantAddress: merchantAddress,
 			}
 
+			log.Printf("Withdrawal Input Parameters:\n"+
+				"  Withdrawal: %s\n"+
+				"  Wallet: %s\n"+
+				"  SystemBalance: %.2f\n"+
+				"  MerchantBalance: %.2f\n"+
+				"  MerchantAddress: %s\n",
+				params.Withdrawal,
+				params.Wallet,
+				params.SystemBalance,
+				params.MerchantBalance,
+				params.MerchantAddress,
+			)
 			output, errWithdrawal := s.createWithdrawal(ctx, params)
 
 			if errWithdrawal != nil {
@@ -115,7 +136,8 @@ func (s *Service) BatchCreateWithdrawals(ctx context.Context, withdrawalIDs []in
 					Int64("payment_id", withdrawal.ID).
 					Int64("merchant_id", withdrawal.MerchantID).
 					Msg("unable to create withdrawal. performing rollback")
-
+				
+				fmt.Println("GOOO : unable to create withdrawal. performing rollback")
 				errRollback := s.rollbackWithdrawal(ctx, params, output, errWithdrawal)
 				result.registerErr(errRollback)
 
@@ -137,7 +159,7 @@ func (s *Service) BatchCreateWithdrawals(ctx context.Context, withdrawalIDs []in
 			}
 
 			result.addTransaction(output.Transaction)
-
+			fmt.Println("GOOO : add transaction success!")
 			return nil
 		})
 	}
@@ -209,6 +231,8 @@ type withdrawalOutput struct {
 func (s *Service) createWithdrawal(ctx context.Context, params withdrawalInput) (withdrawalOutput, error) {
 	out := withdrawalOutput{}
 
+	fmt.Println("Gooooo here")
+
 	// 0. Get currency & baseCurrency (e.g. ETH and ETH_USDT)
 	baseCurrency, err := s.blockchain.GetNativeCoin(params.MerchantBalance.Blockchain())
 	if err != nil {
@@ -245,6 +269,11 @@ func (s *Service) createWithdrawal(ctx context.Context, params withdrawalInput) 
 
 		return out, errors.Wrap(errBalance, "merchant balance has not enough funds for withdrawal")
 	}
+
+	fmt.Printf("DEBUG: SystemBalance Details: %+v\n", params.SystemBalance)
+	fmt.Printf("DEBUG: Withdrawal Amount: %v\n", amount)
+
+
 	if errBalance := params.SystemBalance.Covers(amount); errBalance != nil {
 		return out, errors.Wrap(errBalance, "system balance has not enough funds for withdrawal")
 	}

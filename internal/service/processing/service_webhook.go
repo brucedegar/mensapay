@@ -33,7 +33,7 @@ type TatumWebhook struct {
 	// if set to "false" or does not appear at all, the transaction has been added to a block
 	Mempool bool `json:"mempool"`
 
-	// Chain for ETH test is might be 'ethereum-goerli' or 'sepolia'
+	// Chain for ETH test is might be 'ethereum-sepolia' or 'sepolia'
 	Chain string `json:"chain"`
 }
 

@@ -1,7 +1,7 @@
 import "./withdraw-form.scss";
 
 import * as React from "react";
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import bevis from "src/utils/bevis";
 import {
     Form,
@@ -17,15 +17,15 @@ import {
     Statistic,
     InputNumber
 } from "antd";
-import {ColumnsType} from "antd/es/table";
-import {BigFloat, set_precision as setPrecision} from "bigfloat.js";
+import { ColumnsType } from "antd/es/table";
+import { BigFloat, set_precision as setPrecision } from "bigfloat.js";
 import AddressCreateForm from "src/components/address-create-form/address-create-form";
-import {Withdrawal, MerchantBalance, MerchantAddress, ServiceFee, MerchantAddressParams} from "src/types";
+import { Withdrawal, MerchantBalance, MerchantAddress, ServiceFee, MerchantAddressParams } from "src/types";
 import balancesQueries from "src/queries/balances-queries";
-import {useMount} from "react-use";
+import { useMount } from "react-use";
 import SpinWithMask from "src/components/spin-with-mask/spin-with-mask";
 import DrawerForm from "src/components/drawer-form/drawer-form";
-import {sleep} from "src/utils";
+import { sleep } from "src/utils";
 import addressQueries from "src/queries/address-queries";
 
 interface Props {
@@ -81,9 +81,8 @@ const WithdrawForm: React.FC<Props> = (props: Props) => {
     const nullAmount = new BigFloat(0);
     const maxAmount = new BigFloat(props.balance.amount);
 
-    const balanceId = `${props.balance.blockchainName} ${props.balance.ticker} ${
-        props.balance.isTest ? "⚠️ testnet balance" : ""
-    }`;
+    const balanceId = `${props.balance.blockchainName} ${props.balance.ticker} ${props.balance.isTest ? "⚠️ testnet balance" : ""
+        }`;
 
     const loadServiceFee = async () => {
         if (props.balance.id !== "empty") {
@@ -96,7 +95,7 @@ const WithdrawForm: React.FC<Props> = (props: Props) => {
     }
 
     function displayAmount(amount: string) {
-        return props.balance.isTest ? "0" : amount;
+        return amount;
     }
 
     const checkCorrectAmount = () => {
@@ -128,7 +127,7 @@ const WithdrawForm: React.FC<Props> = (props: Props) => {
 
         setConvertedAmount("");
 
-        const response = await getExchangeRate.mutateAsync({from: props.balance.ticker, amount, to: "USD"});
+        const response = await getExchangeRate.mutateAsync({ from: props.balance.ticker, amount, to: "USD" });
         setConvertedAmount(response.convertedAmount);
     };
 
@@ -144,6 +143,8 @@ const WithdrawForm: React.FC<Props> = (props: Props) => {
             amount: props.balance.amount,
             to: "USD"
         });
+
+        console.log("Converted Amount:", response.convertedAmount); // Print the converted amount to the console
         setAvailableBalance(displayAmount(response.convertedAmount));
     };
 
@@ -231,9 +232,11 @@ const WithdrawForm: React.FC<Props> = (props: Props) => {
             return;
         }
 
+        /*
         if (fee.isTest) {
             return "0";
         }
+        */
 
         const total = new BigFloat(0).add(parseFloat(convertedAmount)).add(parseFloat(fee.usdFee));
 
@@ -310,7 +313,7 @@ const WithdrawForm: React.FC<Props> = (props: Props) => {
 
     return (
         <>
-            <Form<Withdrawal> form={form} initialValues={{id: uuidv4()}} onFinish={onSubmit} layout="vertical">
+            <Form<Withdrawal> form={form} initialValues={{ id: uuidv4() }} onFinish={onSubmit} layout="vertical">
                 <SpinWithMask isLoading={isLoading} />
 
                 {!getServiceFee.isLoading && Boolean(filteredAddresses.length) && availableBalance && (
@@ -333,7 +336,7 @@ const WithdrawForm: React.FC<Props> = (props: Props) => {
                             label="Address"
                             name="addressId"
                             required
-                            rules={[{required: true, message: "Field is required"}, {validateTrigger: ""}]}
+                            rules={[{ required: true, message: "Field is required" }, { validateTrigger: "" }]}
                         >
                             <Select
                                 className={b("address-select")}
@@ -347,7 +350,7 @@ const WithdrawForm: React.FC<Props> = (props: Props) => {
                             <Space.Compact>
                                 <Select
                                     defaultValue={props.balance.ticker}
-                                    options={[{value: props.balance.ticker, label: props.balance.ticker}]}
+                                    options={[{ value: props.balance.ticker, label: props.balance.ticker }]}
                                     className={b("currency-selection")}
                                     disabled
                                     showArrow={false}
